@@ -72,12 +72,36 @@ class AVPlayerLayerViewController: UIViewController {
 // MARK: - Layer setup
 extension AVPlayerLayerViewController {
   func setUpPlayerLayer() {
+    // 1
+    playerLayer.frame = viewForPlayerLayer.bounds
+    
+    // 2
+    let url = Bundle.main.url(forResource: "colorfulStreak", withExtension: "m4v")!
+    let item = AVPlayerItem(asset: AVAsset(url: url))
+    let player = AVPlayer(playerItem: item)
+    
+    // 3
+    player.actionAtItemEnd = .none
+    
+    // 4
+    player.volume = 1.0
+    player.rate = 1.0
+    
+    // export globals
+    playerLayer.player = player
   }
 }
 
 // MARK: - IBActions
 extension AVPlayerLayerViewController {
   @IBAction func playButtonTapped(_ sender: UIButton) {
+    if player?.rate == 0 {
+      player?.rate = rate
+      updatePlayButtonTitle(isPlaying: true)
+    } else {
+      player?.pause()
+      updatePlayButtonTitle(isPlaying: false)
+    }
   }
 
   @IBAction func rateSegmentedControlChanged(_ sender: UISegmentedControl) {
@@ -101,6 +125,17 @@ extension AVPlayerLayerViewController {
 // MARK: - Triggered actions
 extension AVPlayerLayerViewController {
   @objc func playerDidReachEndNotificationHandler(_ notification: Notification) {
+    // 1
+    guard let playerItem = notification.object as? AVPlayerItem else { return }
+    
+    // 2
+    playerItem.seek(to: .zero, completionHandler: nil)
+    
+    // 3
+    if player?.actionAtItemEnd == .pause {
+      player?.pause()
+      updatePlayButtonTitle(isPlaying: false)
+    }
   }
 }
 
