@@ -41,18 +41,69 @@ class CAEmitterLayerViewController: UIViewController {
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//    if segue.identifier == "DisplayEmitterControls" {
-//      (segue.destination as? CAEmitterLayerControlsViewController)?.emitterLayerViewController = self
-//    }
+    if segue.identifier == "DisplayEmitterControls" {
+      (segue.destination as? CAEmitterLayerControlsViewController)?.emitterLayerViewController = self
+    }
   }
 }
 
 // MARK: - Layer setup
 extension CAEmitterLayerViewController {
   func setUpEmitterLayer() {
+    // 1
+    resetEmitterCells()
+    emitterLayer.frame = viewForEmitterLayer.bounds
+    viewForEmitterLayer.layer.addSublayer(emitterLayer)
+
+    // 2
+    emitterLayer.seed = UInt32(Date().timeIntervalSince1970)
+
+    // 3
+    emitterLayer.emitterPosition = CGPoint(
+      x: viewForEmitterLayer.bounds.midX * 1.5,
+      y: viewForEmitterLayer.bounds.midY)
+
+    // 4
+    emitterLayer.renderMode = .additive
   }
 
   func setUpEmitterCell() {
+    // 1
+    emitterCell.contents = UIImage(named: "smallStar")?.cgImage
+        
+    // 2
+    emitterCell.velocity = 50.0
+    emitterCell.velocityRange = 500.0
+        
+    // 3
+    emitterCell.color = UIColor.black.cgColor
+
+    // 4
+    emitterCell.redRange = 1.0
+    emitterCell.greenRange = 1.0
+    emitterCell.blueRange = 1.0
+    emitterCell.alphaRange = 0.0
+    emitterCell.redSpeed = 0.0
+    emitterCell.greenSpeed = 0.0
+    emitterCell.blueSpeed = 0.0
+    emitterCell.alphaSpeed = -0.5
+    emitterCell.scaleSpeed = 0.1
+        
+    // 5
+    let zeroDegreesInRadians = degreesToRadians(0.0)
+    emitterCell.spin = degreesToRadians(130.0)
+    emitterCell.spinRange = zeroDegreesInRadians
+    emitterCell.emissionLatitude = zeroDegreesInRadians
+    emitterCell.emissionLongitude = zeroDegreesInRadians
+    emitterCell.emissionRange = degreesToRadians(360.0)
+        
+    // 6
+    emitterCell.lifetime = 1.0
+    emitterCell.birthRate = 250.0
+
+    // 7
+    emitterCell.xAcceleration = -800
+    emitterCell.yAcceleration = 1000
   }
 
   func resetEmitterCells() {
