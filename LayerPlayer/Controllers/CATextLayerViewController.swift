@@ -79,6 +79,19 @@ extension CATextLayerViewController {
       .joined(separator: " ")
 
     textLayer.string = string
+    
+    // 1
+    textLayer.font = helveticaFont
+    textLayer.fontSize = Constants.baseFontSize
+    
+    // 2
+    textLayer.foregroundColor = UIColor.darkGray.cgColor
+    textLayer.isWrapped = true
+    textLayer.alignmentMode = .left
+    textLayer.truncationMode = .end
+    
+    // 3
+    textLayer.contentsScale = UIScreen.main.scale
   }
 }
 
