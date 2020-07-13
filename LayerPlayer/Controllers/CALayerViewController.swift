@@ -40,7 +40,7 @@ class CALayerViewController: UIViewController {
     
     setUpLayer()
     
-    viewForLayer.layer.shouldRasterize = true
+    // viewForLayer.layer.shouldRasterize = true
     // viewForLayer.layer.masksToBounds = true // default is false
     viewForLayer.layer.addSublayer(layer2)
     viewForLayer.layer.addSublayer(layer)
