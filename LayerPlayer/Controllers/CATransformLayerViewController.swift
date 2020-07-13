@@ -69,6 +69,71 @@ class CATransformLayerViewController: UIViewController {
 // MARK: - Layer setup
 extension CATransformLayerViewController {
   func buildCube() {
+    // 1
+    transformLayer = CATransformLayer();
+    
+    // 2
+    let redLayer = sideLayer(color: redColor)
+    redLayer.addSublayer(swipeMeTextLayer)
+    transformLayer.addSublayer(redLayer)
+    
+    // 3
+    let orangeLayer = sideLayer(color: orangeColor)
+    var orangeTransform = CATransform3DMakeTranslation(sideLength / 2, 0.0, sideLength / -2)
+    orangeTransform = CATransform3DRotate(orangeTransform, degreesToRadians(90), 0, 1, 0)
+    orangeLayer.transform = orangeTransform
+    transformLayer.addSublayer(orangeLayer)
+    
+    // 4
+    let yellowLayer = sideLayer(color: yellowColor)
+    yellowLayer.transform = CATransform3DMakeTranslation(0, 0, -sideLength)
+    transformLayer.addSublayer(yellowLayer)
+    
+    let greenLayer = sideLayer(color: greenColor)
+    var greenTransform = CATransform3DMakeTranslation(
+      sideLength / -2.0,
+      0.0,
+      sideLength / -2.0)
+    greenTransform = CATransform3DRotate(
+      greenTransform,
+      degreesToRadians(90.0),
+      0.0,
+      1.0,
+      0.0)
+    greenLayer.transform = greenTransform
+    transformLayer.addSublayer(greenLayer)
+            
+    let blueLayer = sideLayer(color: blueColor)
+    var blueTransform = CATransform3DMakeTranslation(
+      0.0,
+      sideLength / -2.0,
+      sideLength / -2.0)
+    blueTransform = CATransform3DRotate(
+      blueTransform,
+      degreesToRadians(90.0),
+      1.0,
+      0.0,
+      0.0)
+    blueLayer.transform = blueTransform
+    transformLayer.addSublayer(blueLayer)
+            
+    let purpleLayer = sideLayer(color: purpleColor)
+    var purpleTransform = CATransform3DMakeTranslation(
+      0.0,
+      sideLength / 2.0,
+      sideLength / -2.0)
+    purpleTransform = CATransform3DRotate(
+      purpleTransform,
+      degreesToRadians(90.0),
+      1.0,
+      0.0,
+      0.0)
+    purpleLayer.transform = purpleTransform
+    transformLayer.addSublayer(purpleLayer)
+    
+    // add transform layer to the screen
+    transformLayer.anchorPointZ = sideLength / -2.0
+    viewForTransformLayer.layer.addSublayer(transformLayer)
   }
 
   func setUpSwipeMeTextLayer() {
